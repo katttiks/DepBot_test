@@ -11,29 +11,9 @@ var connector = new builder.ChatConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD 
 });
 var bot = new builder.UniversalBot(connector);
-bot.dialog('/', [
-    function(session) {
-        builder.Prompts.text(session, 'Enter your topic');
-    },
-    function(session, results) {
-    s = results.response;
-    greetings.callRAPI("/index?doc=" + results.response, function(err,data){
-    //console.log(s);
-    //console.log(data[7])
-    if (err) console.log(err);
-    else 
-    {
-        var obj1 = JSON.parse(data);
-        for(i=0;i<6;i++){
-        session.send("Document:%s   Score: %s", obj1[i]['id'],obj1[i]['scores'])
-        }
-        //console.log(data);
-    }
-    //session.send('Docs: ' + data)//console.log(data);
-    
+bot.dialog('/', function(session) {
+    session.send('Hello, bot!');
 });
-    }
-]);
 
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
